@@ -19,7 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     loop {
         let hostname = get_hostname(&mut client).await?;
 
-        println!("hostname {:?}", hostname);
+        println!("{:?}", hostname);
 
         tokio::time::sleep(tokio::time::Duration::from_secs(interval)).await;
     }
