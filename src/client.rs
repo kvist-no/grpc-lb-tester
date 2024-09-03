@@ -17,9 +17,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut client = InfoServiceClient::connect(url).await?;
 
     loop {
-        let hostname = get_hostname(&mut client).await?;
+        let (elapsed, result) = time_async_call(get_hostname(&mut client))
+            .await;
 
-        println!("{:?}", hostname);
+        let hostname = result?;
+
+        println!("{:?} ({}ms)", hostname, elapsed);
 
         tokio::time::sleep(tokio::time::Duration::from_secs(interval)).await;
     }
@@ -31,4 +34,17 @@ async fn get_hostname(client: &mut InfoServiceClient<Channel>) -> Result<String,
     let response = client.info(request).await?;
 
     Ok(response.into_inner().hostname)
+}
+
+async fn time_async_call<F, T>(
+    f: F
+) -> (u128, Result<T, Box<dyn std::error::Error>>)
+where
+    F: std::future::Future<Output=Result<T, Box<dyn std::error::Error>>>,
+{
+    let now = std::time::Instant::now();
+    let result = f.await;
+    let elapsed = now.elapsed().as_millis();
+
+    (elapsed, result)
 }
