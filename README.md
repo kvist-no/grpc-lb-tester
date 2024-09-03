@@ -1,7 +1,6 @@
 # gRPC Load Balancing Tester
 
-A very simple application that simply calls the `Info` and `Status` services from [podinfo]
-(https://github.com/stefanprodan/podinfo) over and over and logs the
+A very simple application that simply calls the `Info` and `Status` services from [podinfo](https://github.com/stefanprodan/podinfo) over and over and logs the
 hostname and time to get hostname and time to get "Unavailable". This is used to test that the gRPC load balancing and
 retries with Linkerd work as expected.
 
