@@ -1,0 +1,16 @@
+[package]
+name = "grpc-lb-tester"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tonic = "0.12.2"
+prost = "0.13.2"
+tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
+
+[[bin]] # Bin to run the HelloWorld gRPC server
+name = "grpc-lb-tester-client"
+path = "src/client.rs"
+
+[build-dependencies]
+tonic-build = "0.12.2"
